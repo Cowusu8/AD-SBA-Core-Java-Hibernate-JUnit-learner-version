@@ -9,8 +9,8 @@ import jakarta.persistence.*;
 required args constructor
 setters and getter
 toString (exclude collections to avoid infinite loops)
-override equals and hashcode methods (don't use lombok here)
-helper methods
+override equals and hashcode methods (((don't use lombok here)))
+----helper methods
  */
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class Student {
     @Column(length = 50, name = "email")
     String email;
     @NonNull
-    @Column(length = 50, name = "name")
+    @Column(length = 50, name = "name", nullable = false)
     String name;
     @Column(length = 50, name = "password")
     String password;

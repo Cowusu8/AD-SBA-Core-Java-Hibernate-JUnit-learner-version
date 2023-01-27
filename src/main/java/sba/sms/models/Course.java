@@ -10,14 +10,14 @@ import jakarta.persistence.*;
 required args constructor
 setters and getter
 toString (exclude collections to avoid infinite loops)
-override equals and hashcode methods (don't use lombok here)
-helper methods
+override equals and hashcode methods (((don't use lombok here)))
+----helper methods
  */
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @ToString
 
 @Entity
