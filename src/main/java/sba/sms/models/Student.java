@@ -22,7 +22,7 @@ override equals and hashcode methods (((don't use lombok here)))
 
 public class Student {
     @Id
-    @Column(length = 50, name = "email")
+    @Column(length = 50, name = "email", unique=true)
     String email;
     @NonNull
     @Column(length = 50, name = "name", nullable = false)
@@ -30,6 +30,18 @@ public class Student {
     @Column(length = 50, name = "password")
     String password;
 
+    @ToString.Exclude
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @JoinTable(name = "student_courses",
+            joinColumns = @JoinColumn(name = "student_email"),
+             inverseJoinColumns = @JoinColumn(name = "courses_id"))
+     Set<Course> courses = new HashSet<>();
+    
+    public void addCourse(Course course){
+        courses.add(course);
+        course.getStudents().add(this);
+    }
+    
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);

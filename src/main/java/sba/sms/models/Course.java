@@ -24,6 +24,7 @@ override equals and hashcode methods (((don't use lombok here)))
 @Table(name = "course")
 public class Course {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
     int id;
     @Column(length = 50, name = "name")
     @NonNull
@@ -32,6 +33,11 @@ public class Course {
     @NonNull
     String instructor;
 
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},fetch = FetchType.EAGER)
+    
+    public Set<Student> students = new HashSet<>();
+    
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
