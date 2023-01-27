@@ -1,5 +1,7 @@
 package sba.sms.models;
 
+import lombok.*;
+import jakarta.persistence.*;
 /*
  * Models requires:
     - no args constructor
@@ -10,11 +12,23 @@ toString (exclude collections to avoid infinite loops)
 override equals and hashcode methods (don't use lombok here)
 helper methods
  */
-public class Student {
-    String name, password, email;
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Setter
+@Getter
+@ToString
+@Table(name = "student")
 
-    /* no args constructor */
-    public Student() {}
+public class Student {
+    @Id
+    @Column(length = 50, name = "email")
+    String email;
+    @NonNull
+    @Column(length = 50, name = "name")
+    String name;
+    @Column(length = 50, name = "password")
+    String password;
 
     @Override
     public boolean equals(Object obj) {
@@ -25,51 +39,4 @@ public class Student {
     public int hashCode() {
         return super.hashCode();
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /* all args constructor */
-    public Student(String name, String password, String email) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
-    /* required args constructor */
-    /*
-     * public Student(String name, String password, String email) { this.name =
-     * name; this.password = password; this.email = email; }
-     */
-
 }

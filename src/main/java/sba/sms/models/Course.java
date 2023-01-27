@@ -1,6 +1,7 @@
 package sba.sms.models;
 
-import java.util.Objects;
+import lombok.*;
+import jakarta.persistence.*;
 
 /*
  * Models requires:
@@ -12,48 +13,33 @@ toString (exclude collections to avoid infinite loops)
 override equals and hashcode methods (don't use lombok here)
 helper methods
  */
-public class Course {
-    int id;
-    String name, instructor;
+@NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@ToString
 
-    public Course() {}
-    public Course(int id, String name, String instructor) {
-        this.name = name;
-        this.id = id;
-        this.instructor = instructor;
+@Entity
+@Table(name = "course")
+public class Course {
+    @Id
+    int id;
+    @Column(length = 50, name = "name")
+    @NonNull
+    String name;
+    @Column(length = 50, name="instructor")
+    @NonNull
+    String instructor;
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", instructor='" + instructor + '\'' +
-                '}';
-    }
-
-    /* required args constructor */
-    public String getInstructor() {
-        return instructor;
-    }
-
-    public void setInstructor(String instructor) {
-        this.instructor = instructor;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public int hashCode() {
+        return super.hashCode();
     }
 }
 
