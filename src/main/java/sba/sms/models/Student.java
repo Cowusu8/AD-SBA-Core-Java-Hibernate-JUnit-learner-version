@@ -1,26 +1,34 @@
 package sba.sms.models;
 
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import jakarta.persistence.*;
-/*
- * Models requires:
-    - no args constructor
-     - all args constructor
-required args constructor
-setters and getter
-toString (exclude collections to avoid infinite loops)
-override equals and hashcode methods (((don't use lombok here)))
-----helper methods
- */
+import lombok.experimental.FieldDefaults;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Setter
 @Getter
 @ToString
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "student")
+@NamedQueries({
+    @NamedQuery(name = "Student.getAllStudents", query = "from Student"),
+    @NamedQuery(name = "Student.getByEmail", query = "from Student where id = :id")
+})
 
 public class Student {
+    public Student(String email, String name, String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
+
     @Id
     @Column(length = 50, name = "email", unique=true)
     String email;
@@ -35,20 +43,23 @@ public class Student {
     @JoinTable(name = "student_courses",
             joinColumns = @JoinColumn(name = "student_email"),
              inverseJoinColumns = @JoinColumn(name = "courses_id"))
-     Set<Course> courses = new HashSet<>();
+    Set<Course> courses = new HashSet<>();
     
     public void addCourse(Course course){
         courses.add(course);
-        course.getStudents().add(this);
+//        course.getStudents().add(this);
     }
     
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return email.equals(student.email) && name.equals(student.name) && password.equals(student.password);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(email, name, password);
     }
 }

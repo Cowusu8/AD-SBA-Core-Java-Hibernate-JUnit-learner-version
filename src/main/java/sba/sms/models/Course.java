@@ -1,6 +1,12 @@
 package sba.sms.models;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import jakarta.persistence.*;
 
 /*
@@ -18,11 +24,12 @@ override equals and hashcode methods (((don't use lombok here)))
 @AllArgsConstructor
 @Setter
 @Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
 
 @Entity
 @Table(name = "course")
-public class Course {
+public class Course<Student> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
     int id;
@@ -39,13 +46,17 @@ public class Course {
     public Set<Student> students = new HashSet<>();
     
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return id == course.id && name.equals(course.name) && instructor.equals(course.instructor);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(id, name, instructor);
     }
+
 }
 
