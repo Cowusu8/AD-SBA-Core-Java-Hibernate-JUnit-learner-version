@@ -16,6 +16,9 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
+
+@Entity
 @Table(name = "student")
 @NamedQueries({
     @NamedQuery(name = "Student.getAllStudents", query = "from Student"),
@@ -23,18 +26,17 @@ import lombok.experimental.FieldDefaults;
 })
 
 public class Student {
-    public Student(String email, String name, String password) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
-    }
 
+
+    @NonNull
     @Id
     @Column(length = 50, name = "email", unique=true)
     String email;
     @NonNull
     @Column(length = 50, name = "name", nullable = false)
     String name;
+
+    @NonNull
     @Column(length = 50, name = "password")
     String password;
 
@@ -44,10 +46,10 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_email"),
              inverseJoinColumns = @JoinColumn(name = "courses_id"))
     Set<Course> courses = new HashSet<>();
-    
+
     public void addCourse(Course course){
         courses.add(course);
-//        course.getStudents().add(this);
+        course.getStudents().add(this);
     }
     
     @Override

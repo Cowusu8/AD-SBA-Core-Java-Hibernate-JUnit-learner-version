@@ -2,23 +2,9 @@ package sba.sms.models;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
+import java.util.*;
 import jakarta.persistence.*;
 
-/*
- * Models requires:
-    - no args constructor
-     - all args constructor
-required args constructor
-setters and getter
-toString (exclude collections to avoid infinite loops)
-override equals and hashcode methods (((don't use lombok here)))
-----helper methods
- */
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
@@ -29,7 +15,7 @@ override equals and hashcode methods (((don't use lombok here)))
 
 @Entity
 @Table(name = "course")
-public class Course<Student> {
+public class Course{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id")
     int id;
@@ -42,8 +28,7 @@ public class Course<Student> {
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},fetch = FetchType.EAGER)
-    
-    public Set<Student> students = new HashSet<>();
+    private Set<Student> students = new LinkedHashSet<Student>();
     
     @Override
     public boolean equals(Object o) {

@@ -41,7 +41,7 @@ public class App {
             System.out.printf("Select # from menu:%n1.Student%n2.Quit%n");
             userInput = input.nextInt();
             if (userInput == 1) {
-                System.out.printf("Enter student email: ");
+                System.out.print("Enter student email: ");
                 String email = input.next();
                 System.out.printf("Enter %s's password: ", email.substring(0, email.indexOf("@")));
                 String password = input.next();
